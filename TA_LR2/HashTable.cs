@@ -9,6 +9,8 @@ namespace TA_LR2
         private Item[] items;
         private int[] table;
         private int size = 256;
+        private int counter;
+        private int collisions;
 
         public HashTable()
         {
@@ -43,19 +45,20 @@ namespace TA_LR2
             }
         }
 
-        public void OutputTable()
-        {
-            foreach (var el in table)
-            {
-                Console.Write($"{el}    ");
-            }
-        }
-
         public void Add(string item)
         {
             int key = PearsonHashing(item);
             if (!items[key].Nodes.Contains(item))
-                items[key].Nodes.Add(item);
+                if (items[key].Nodes.Count != 0)
+                {
+                    collisions++;
+                    items[key].Nodes.Add(item);
+                }
+                else
+                {
+                    items[key].Nodes.Add(item);
+                }
+                
         }
 
         public void Search(string item)
@@ -65,17 +68,17 @@ namespace TA_LR2
             {
                 if (item == items[key].Nodes[i])
                 {
-                    Console.WriteLine("Элемент найден.");
+                    Console.WriteLine($"Элемент найден.\n{key}: {items[key].Nodes[i]}\n");
+                    counter++;
+                    
+                    Console.WriteLine($"Количество сравнений: {counter}");
+                    Console.WriteLine($"Количество коллизий: {collisions}");
                     return;
                 }
+
+                counter++;
             }
             Console.WriteLine("Элемент не найден.");
-        }
-
-        public int ShowHash(string item)
-        {
-            var key = PearsonHashing(item);
-            return key;
         }
         
         private int PearsonHashing(string item)
