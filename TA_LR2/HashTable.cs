@@ -10,7 +10,6 @@ namespace TA_LR2
         private int[] table;
         private int size = 256;
         private int counter;
-        private int collisions;
 
         public HashTable()
         {
@@ -49,16 +48,8 @@ namespace TA_LR2
         {
             int key = PearsonHashing(item);
             if (!items[key].Nodes.Contains(item))
-                if (items[key].Nodes.Count != 0)
-                {
-                    collisions++;
-                    items[key].Nodes.Add(item);
-                }
-                else
-                {
-                    items[key].Nodes.Add(item);
-                }
-                
+                items[key].Nodes.Add(item);
+
         }
 
         public void Search(string item)
@@ -72,7 +63,6 @@ namespace TA_LR2
                     counter++;
                     
                     Console.WriteLine($"Количество сравнений: {counter}");
-                    Console.WriteLine($"Количество коллизий: {collisions}");
                     return;
                 }
 
