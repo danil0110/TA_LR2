@@ -7,9 +7,9 @@ namespace TA_LR2
     {
         static void Main(string[] args)
         {
-            HashTable<string> hashTable = new HashTable<string>();
+            HashTable<string> hashTable = new HashTable<string>(50000);
             
-            GenerationForHashTable(hashTable, 1000);
+            GenerationForHashTable(hashTable, 20000);
             Console.Write("Введите ключ для поиска элемента в хеш-таблице: ");
             hashTable.Search(Console.ReadLine());
         }

@@ -8,11 +8,12 @@ namespace TA_LR2
     {
         private Item[] items;
         private int[] table;
-        private int size = 256;
+        private int size;
         private int counter;
 
-        public HashTable()
+        public HashTable(int size)
         {
+            this.size = size;
             items = new Item[size];
             for (int i = 0; i < items.Length; i++)
                 items[i] = new Item(i);
@@ -73,12 +74,18 @@ namespace TA_LR2
         
         private int PearsonHashing(string item)
         {
-            int h = 0;
+            int h;
+            string hh = "";
             byte[] bytes = Encoding.UTF8.GetBytes(item);
-            for (int i = 0; i < bytes.Length; i++)
-                h = table[h ^ bytes[i]];
+            for (int i = 0; i < 8; i++)
+            {
+                h = table[(bytes[0] + i) % 256];
+                for (int j = 0; j < bytes.Length; j++)
+                    h = table[h ^ bytes[j]];
 
-            return h;
+                hh += Convert.ToString(h);
+            }
+            return Convert.ToInt32(Convert.ToDouble(hh) % size);
         }
     }
 }
